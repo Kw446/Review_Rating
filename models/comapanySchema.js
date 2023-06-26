@@ -1,0 +1,29 @@
+const mongoose=require("mongoose");
+const companySchema=new mongoose.Schema({
+    companyname:{
+        type:String,
+        require:true,
+    },
+    location:{
+        type:String,
+        require:true,
+    },
+    city:{
+        type:String,
+        require:true,
+    },
+    isActive:{
+        type:String,
+        require:true,
+    },
+    createdAt:{
+        type:String,
+        require:true,
+    },
+    updatedAt:{
+        type:String,
+        require:true,
+    },
+});
+companySchema.set("timestamps",true);
+module.exports=mongoose.model("company",companySchema);
