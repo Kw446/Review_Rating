@@ -1,45 +1,48 @@
-const mongoose=require("mongoose");
-const userSchema=new mongoose.Schema({
-    userName:{
-        type:String,
-        require:true,
-    },
-    userPhone:{
-        type:String,
-        require:true,
-    },
-    userPassword:{
-        type:String,
-        require:true,
-    },
-    userEmail:{
-        type:String,
-        require:true,
-    },
-    userCity:{
-        type:String,
-        require:true,
-    },
-    userState:{
-        type:String,
-        require:true,
-    },
-    userRoll:{
-        type:String,
-        default:"user",
-    },
-    isActive:{
-        type:String,
-        require:true,
-    },
-    createdAt:{
-        type:String,
-        require:true,
-    },
-    updatedAt:{
-        type:String,
-        require:true,
-    },
+const mongoose = require("mongoose");
+const userSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    require: true,
+  },
+  userPhone: {
+    type: Number,
+    require: true,
+  },
+  userPassword: {
+    type: String,
+    require: true,
+  },
+  userEmail: {
+    type: String,
+    require: true,
+  },
+  userCity: {
+    type: String,
+    require: true,
+  },
+  userState: {
+    type: String,
+    require: true,
+  },
+  userRoll: {
+    type: String,
+    default: "user",
+  },
+  profilePic: {
+    type: String,
+  },
+  isActive: {
+    type: String,
+    require: true,
+  },
+  createdAt: {
+    type: String,
+    require: true,
+  },
+  updatedAt: {
+    type: String,
+    require: true,
+  },
 });
-userSchema.set("timestamps",true);
-module.exports=mongoose.model("user",userSchema);
+userSchema.set("timestamps", true);
+module.exports = mongoose.model("user", userSchema);
