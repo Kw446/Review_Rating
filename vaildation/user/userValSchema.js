@@ -53,7 +53,7 @@ const userSchema = {
       userState: joi.string().required(),
     })
     .unknown(true),
-
+//.....for login validation..............
   loginUser: joi
     .object({
       userEmail: joi
@@ -66,7 +66,7 @@ const userSchema = {
     .unknown(true),
 
 
-  // reset validation
+  // ............reset validation api........................
   resetPassword: joi.object({
     newPassword: joiPassword
       .string()

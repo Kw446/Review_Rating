@@ -1,7 +1,7 @@
 const companyReviewSchema = require("../models/companyReviewSchema");
 const companySchema = require("../models/companySchema");
 const { unlinkSync } = require("fs");
-const { search } = require("../routes/userRoutes");
+
 
 module.exports = {
   createCompany: async (req, res) => {
@@ -22,7 +22,7 @@ module.exports = {
         let company = await companyData.save();
         res.status(201).json({
           success: true,
-          message: "comapny created succfully ",
+          message: "comapny created successfully ",
         });
       }
     } catch (error) {
@@ -39,7 +39,7 @@ module.exports = {
       const totalComapny = await companySchema.find().count();
       res.status(200).json({
         success: true,
-        message: "all company founded succefully",
+        message: "All company founded successfully",
         count: totalComapny,
         companies: companyList,
       });
@@ -59,7 +59,7 @@ module.exports = {
         .populate({ path: "userId", select: "userName  profilePic" });
       res.status(200).json({
         success: true,
-        message: "all  deatils of review are fatched successfully",
+        message: "Deatils of comapny is  fatched successfully",
         company: companyData,
         review: reviewDataList,
       });
@@ -80,13 +80,13 @@ module.exports = {
       if (companies.length > 0) {
         res.status(200).json({
           success: true,
-          message: "all  deatils of company show successfully",
+          message: "All  deatils of company show'n successfully",
           companies: companies,
         });
       } else {
-        res.status(500).json({
+        res.status(403).json({
           success: false,
-          message: "  company not found",
+          message: " The character you enterd is not present in database ",
         });
       }
     } catch (error) {
@@ -101,10 +101,10 @@ module.exports = {
     try {
       const companyData = await companySchema
         .find(req.params.id)
-        .sort("companyName");
+        .sort({companyName:1});
       res.status(200).json({
         success: true,
-        message: "all  deatils sort fatched successfully",
+        message: "All  deatils sort fatched successfully",
         sort: companyData,
       });
     } catch (error) {

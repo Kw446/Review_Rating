@@ -1,14 +1,11 @@
-const { response } = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userSchema = require("../models/userSchema");
 const { transporter } = require("../service/emailService");
-const { unlink } = require("../routes/userRoutes");
-//const { checkout } = require("../routes/userRoutes");
 const { unlinkSync } = require("fs");
 
+//..............create api..........................
 let createUser = async (req, res) => {
-  console.log(req.body);
   const salt = await bcrypt.genSalt(10);
   const userData = new userSchema(req.body);
   try {
@@ -19,15 +16,14 @@ let createUser = async (req, res) => {
       req.file ? unlinkSync(req.file.path) : null;
       res.status(401).json({
         success: false,
-        message: "user is alrdy exit with this email",
+        message: "User is already exist with this email",
       });
     } else {
       userData.userPassword = await bcrypt.hash(req.body.userPassword, salt);
-
       const filePath = `/uploads/userImage/${req.file.filename}`;
       userData.profilePic = filePath;
 
-      //trim
+      //.......trim..............
       userData.userName = req.body.userName
         .trim()
         .split(" ")
@@ -35,26 +31,24 @@ let createUser = async (req, res) => {
           return data.charAt(0).toUpperCase() + data.slice(1);
         })
         .join(" ");
-      console.log(userData.userName);
-
       const user = await userData.save();
       res.status(201).json({
         success: true,
-        message: "user is successfulyy registered",
+        message: "User is successfully registered",
         user: user,
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: `error occur${error.message}`,
+      message: `Eror occur${error.message}`,
     });
   }
 };
 
+//................login api............................
 
 const userLogin = async (req, res) => {
-  console.log(req.body);
   try {
     const userData = await userSchema.findOne({
       userEmail: req.body.userEmail,
@@ -68,37 +62,37 @@ const userLogin = async (req, res) => {
         const token = jwt.sign({ userData }, process.env.SECRET_KEY, {
           expiresIn: "1h",
         });
-        res.status(200).json({
+        res.status(201).json({
           success: true,
-          message: "login succfully",
+          message: "login successfully",
           accessToken: token,
         });
       } else {
         res.status(401).json({
           success: false,
-          message: "invalid email or password",
+          message: "Invalid email or password",
         });
       }
     } else {
       res.status(403).json({
         success: false,
-        message: "user is not regeisterd with this email",
+        message: "User is not regeisterd with this email",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: `error ocure ${error.message}`,
+      message: `Error ocure ${error.message}`,
     });
   }
 };
 
-//to check token
+//.......... check token api ................
 let checktoken = (req, res) => {
-  res.send("hey your token is valld");
+  res.send(" Your token is valld");
 };
 
-// user send mail fro rest password
+//.........sendEmail for rest password Api............
 
 const sendEmail = async (req, res) => {
   const { userEmail } = req.body;
@@ -106,30 +100,28 @@ const sendEmail = async (req, res) => {
     const userData = await userSchema.findOne({
       userEmail: req.body.userEmail,
     });
-    // console.log(" Email user:", userData);
     if (userData != null) {
       const secret = userData._id + process.env.SECRET_KEY;
       const token = jwt.sign({ userID: userData._id }, secret, {
         expiresIn: "20m",
       });
-
       const link = `http://127.0.0.1:3000/user/reset-password/${userData._id}/${token}`;
       const info = await transporter.sendMail({
         from: "kaustubhwani446@gmail.com",
-        to: "kaustubhwani446@gmail.com",
-        subject: "Email for user reser password",
-        text: `<a href=${link}> click on this for reset password`,
+        to: userEmail,
+        subject: "Email for user reset password",
+        html: `<a href=${link}> click on this for reset password`,
       });
       return res.status(201).json({
         success: true,
-        message: "Email send succfuly",
-        token: userData._id,
+        message: "Email send successfully",
+        token: token,
         userID: userData._id,
       });
     } else {
       res.status(403).json({
         success: false,
-        error: "pls enter valid email",
+        error: "Please enter valid email",
       });
     }
   } catch (error) {
@@ -140,10 +132,7 @@ const sendEmail = async (req, res) => {
   }
 };
 
-// const resetUserpassword=async(req,res)=>{
-//     const{id,token}=req.params;
-//     let{newpassword,confirmpassword}=req.body();
-// }
+//.........................Reset API.........................................
 
 const resetUserpassword = async (req, res) => {
   const { id, token } = req.params;
@@ -161,18 +150,18 @@ const resetUserpassword = async (req, res) => {
         });
         res.status(200).json({
           success: true,
-          message: "password change succfuly",
+          message: "password change successfully",
         });
       } else {
         res.status(403).json({
           success: false,
-          message: "password  and confirm, not matched",
+          message: "Reset password and confirm password  not matched",
         });
       }
     } else {
       res.status(403).json({
         success: false,
-        message: "email usser notf found",
+        message: " User email not found",
       });
     }
   } catch (err) {

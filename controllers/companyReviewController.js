@@ -18,7 +18,9 @@ const createReview = async (req, res) => {
   }
 };
 
-//hjadgjasdjgfasjdhg
+
+//................updateReview api...........................
+
 let updateReview = async (req, res) => {
   const reviewID = req.params.id;
   try {
@@ -40,6 +42,7 @@ let updateReview = async (req, res) => {
   }
 };
 
+//....................delete Review Api.................................................
 let deleteReview = async (req, res) => {
   let reviewID = req.params.id;
   try {

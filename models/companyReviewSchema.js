@@ -22,16 +22,7 @@ const companyReviewSchema = new mongoose.Schema({
     ref: "company",
     require: true,
   },
-
   isActive: {
-    type: String,
-    require: true,
-  },
-  createdAt: {
-    type: String,
-    require: true,
-  },
-  updatedAt: {
     type: String,
     require: true,
   },

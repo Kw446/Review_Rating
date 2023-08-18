@@ -40,7 +40,9 @@ app.use(Express.json());
 app.use("/", userRouter);
 app.use("/", companyRoutes);
 
-app.listen(process.env.PORT, (req, res) => {
+ const server = app.listen(process.env.PORT, (req, res) => {
   console.log(`port is running on port :${process.env.PORT}`);
   logger.info(`Server staterd and running on http://${HOST}:${PORT}`);
 });
+
+module.exports=server;

@@ -19,7 +19,7 @@ module.exports = {
   },
 
   logInUserValidation: async (req, res, next) => {
-    let value = await userValSchema.loginUser.validate(req.body, {
+    let value = await userSchema.loginUser.validate(req.body, {
       abortEarly: false,
     });
 
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   resetPassword: async (req, res, next) => {
-    const value = await userValSchema.resetPassword.validate(req.body, {
+    const value = await userSchema.resetPassword.validate(req.body, {
       abortEarly: false,
     });
     if (value.error) {

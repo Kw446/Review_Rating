@@ -1,14 +1,8 @@
 const express = require("express");
 const userRouter = require("./userRoutes");
 const companyRouter = require("./companyRoutes");
-const {
-  createReview,
-  updateReview,
-  deleteReview,
-} = require("../controllers/companyReviewController");
-const {
-  createReviewValidation,
-} = require("../vaildation/review/reviewValData");
+const {createReview, updateReview,deleteReview,} = require("../controllers/companyReviewController");
+const {createReviewValidation,} = require("../vaildation/review/reviewValData");
 
 let router = express.Router();
 

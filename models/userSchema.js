@@ -35,14 +35,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  createdAt: {
-    type: String,
-    require: true,
-  },
-  updatedAt: {
-    type: String,
-    require: true,
-  },
 });
 userSchema.set("timestamps", true);
 module.exports = mongoose.model("user", userSchema);
